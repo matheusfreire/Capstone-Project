@@ -4,31 +4,32 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.msf.myshops.R;
-import com.msf.myshops.model.Shop;
-import com.msf.myshops.ui.ShopsFragment.OnListFragmentInteractionListener;
+import com.msf.myshops.model.Item;
+import com.msf.myshops.ui.ItemsFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
-public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerViewAdapter.ViewHolder> {
+public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Shop> mValues = null;
+    private final List<Item> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public ShopRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+    public MyItemsRecyclerViewAdapter(List<Item> items, OnListFragmentInteractionListener listener) {
+        mValues = items;
         mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
         holder.mView.setOnClickListener(v -> {
             if (null != mListener) {
                 mListener.onListFragmentInteraction(holder.mItem);
@@ -43,15 +44,11 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
-        final TextView mIdView;
-        final TextView mContentView;
-        public Shop mItem;
+        public Item mItem;
 
-        ViewHolder(View view) {
+        public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
         }
 
     }
