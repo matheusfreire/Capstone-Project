@@ -23,7 +23,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_compra, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_shop, parent, false);
         return new ViewHolder(view);
     }
 
