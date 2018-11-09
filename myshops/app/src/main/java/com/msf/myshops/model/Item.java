@@ -16,6 +16,10 @@ public class Item implements Parcelable{
 
     private double amount;
 
+    public Item(){
+
+    }
+
     protected Item(Parcel in) {
         description = in.readString();
         value = in.readDouble();

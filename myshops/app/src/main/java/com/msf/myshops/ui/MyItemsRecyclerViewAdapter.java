@@ -7,34 +7,31 @@ import android.view.ViewGroup;
 
 import com.msf.myshops.R;
 import com.msf.myshops.model.Item;
-import com.msf.myshops.ui.ItemsFragment.OnListFragmentInteractionListener;
+import com.msf.myshops.ui.ItemsFragment.OnItemClickListener;
 
 import java.util.List;
 
-public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecyclerViewAdapter.ViewHolder> {
+import butterknife.ButterKnife;
+
+public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecyclerViewAdapter.ItemViewHolder> {
 
     private final List<Item> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnItemClickListener mListener;
 
-    public MyItemsRecyclerViewAdapter(List<Item> items, OnListFragmentInteractionListener listener) {
+    public MyItemsRecyclerViewAdapter(List<Item> items, ItemsFragment.OnItemClickListener listener) {
         mValues = items;
         mListener = listener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-        return new ViewHolder(view);
+        return new ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ItemViewHolder holder, int position) {
 
-        holder.mView.setOnClickListener(v -> {
-            if (null != mListener) {
-                mListener.onListFragmentInteraction(holder.mItem);
-            }
-        });
     }
 
     @Override
@@ -42,14 +39,23 @@ public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecy
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        final View mView;
-        public Item mItem;
+    private Item getItemByPosition(int position){
+        return mValues.get(position);
+    }
 
-        public ViewHolder(View view) {
+    class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        final View mView;
+        Item mItem;
+
+        ItemViewHolder(View view) {
             super(view);
+            ButterKnife.bind(this, view);
             mView = view;
         }
 
+        @Override
+        public void onClick(View view) {
+            mListener.onItemInteraction(getItemByPosition(getAdapterPosition()));
+        }
     }
 }

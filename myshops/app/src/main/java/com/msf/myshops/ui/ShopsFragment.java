@@ -10,37 +10,21 @@ import android.view.ViewGroup;
 import com.msf.myshops.R;
 import com.msf.myshops.model.Shop;
 
+import butterknife.ButterKnife;
+
 public class ShopsFragment extends Fragment {
 
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 1;
+    private final int COLUMN_COUNT = 1;
     private OnListFragmentInteractionListener mListener;
 
     public ShopsFragment() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shop_list, container, false);
-//        if (view instanceof RecyclerView) {
-//            Context context = view.getContext();
-//            RecyclerView recyclerView = (RecyclerView) view;
-//            if (mColumnCount <= 1) {
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            } else {
-//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-//            }
-//            recyclerView.setAdapter(new ShopRecyclerViewAdapter( mListener));
-//        }
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -52,7 +36,7 @@ public class ShopsFragment extends Fragment {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement OnItemClickListener");
         }
     }
 

@@ -15,9 +15,9 @@ import butterknife.ButterKnife;
 
 public class ItemsFragment extends Fragment {
 
-    private int mColumnCount = 1;
+    private final int COLUMN_COUNT = 1;
 
-    private OnListFragmentInteractionListener mListener;
+    private OnItemClickListener mListener;
 
     public ItemsFragment() {
     }
@@ -39,10 +39,10 @@ public class ItemsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof OnItemClickListener) {
+            mListener = (OnItemClickListener) context;
         } else {
-            throw new RuntimeException(context.toString()+ " must implement OnListFragmentInteractionListener");
+            throw new RuntimeException(context.toString()+ " must implement OnItemClickListener");
         }
     }
 
@@ -52,7 +52,7 @@ public class ItemsFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Item item);
+    public interface OnItemClickListener {
+        void onItemInteraction(Item item);
     }
 }

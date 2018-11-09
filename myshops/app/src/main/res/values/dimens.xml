@@ -8,4 +8,5 @@
     <dimen name="margin_list">8dp</dimen>
     <dimen name="elevation_card_view">6dp</dimen>
     <dimen name="margin_top_card">10dp</dimen>
+    <dimen name="margin_input_layout">8dp</dimen>
 </resources>
