@@ -9,4 +9,7 @@
     <dimen name="elevation_card_view">6dp</dimen>
     <dimen name="margin_top_card">10dp</dimen>
     <dimen name="margin_input_layout">8dp</dimen>
+    <dimen name="dimen_6dp">6dp</dimen>
+    <dimen name="dimen_8dp">8dp</dimen>
+    <dimen name="fab_size">56dp</dimen>
 </resources>

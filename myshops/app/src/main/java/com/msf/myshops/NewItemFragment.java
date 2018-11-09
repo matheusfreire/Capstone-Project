@@ -107,7 +107,6 @@ public class NewItemFragment extends Fragment {
         return TextUtils.isEmpty(inputEditText.getText());
     }
 
-
     public interface OnNewItemListener {
         void onNewItemSave(Item item);
     }

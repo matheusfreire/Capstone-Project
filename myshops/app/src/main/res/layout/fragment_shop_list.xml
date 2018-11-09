@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.msf.minhascompras.ComprasFragment"
+    android:id="@+id/frame_shop"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
     tools:context=".ui.ShopsFragment"
-    tools:listitem="@layout/shop" />
+    tools:listitem="@layout/shop">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/list"
+            android:name="com.msf.minhascompras.ComprasFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            tools:context=".ui.ShopsFragment"
+            tools:listitem="@layout/shop" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        tools:text="@string/an_error_has_occurred" />
+
+    <ProgressBar
+        android:id="@+id/progress_shop"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+</FrameLayout>
