@@ -1,4 +1,4 @@
-package com.msf.myshops;
+package com.msf.myshops.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.msf.myshops.R;
 import com.msf.myshops.model.Item;
+import com.msf.myshops.model.Shop;
 
 import java.util.Objects;
 
@@ -32,6 +34,7 @@ public class NewItemFragment extends Fragment {
 
     @BindView(R.id.input_edit_quantidade)
     TextInputEditText mInputEditQuantity;
+
 
     public NewItemFragment() {
         // Required empty public constructor

@@ -24,7 +24,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/share_fab"
+        android:id="@+id/add_new_item"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
         android:layout_margin="@dimen/fab_margin"

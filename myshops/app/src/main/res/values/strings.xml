@@ -14,4 +14,5 @@
     <string name="error_unit_value">Informe o valor unitário</string>
     <string name="error_quantity">Informe a quantidade</string>
     <string name="an_error_has_occurred">Aconteceu um erro, tente novamente</string>
+    <string name="items">Itens</string>
 </resources>

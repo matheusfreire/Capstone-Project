@@ -4,20 +4,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.msf.myshops.R;
 import com.msf.myshops.model.Shop;
-import com.msf.myshops.ui.ShopsFragment.OnListFragmentInteractionListener;
+import com.msf.myshops.ui.ShopsFragment.OnShopClickListener;
 
 import java.util.List;
 
 public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerViewAdapter.ViewHolder> {
 
     private final List<Shop> mValues = null;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnShopClickListener mListener;
 
-    public ShopRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+    public ShopRecyclerViewAdapter(OnShopClickListener listener) {
         mListener = listener;
     }
 
@@ -29,11 +28,6 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mView.setOnClickListener(v -> {
-            if (null != mListener) {
-                mListener.onListFragmentInteraction(holder.mItem);
-            }
-        });
     }
 
     @Override
@@ -41,18 +35,22 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    private Shop getShopByPosition(int position){
+        return mValues.get(position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         final View mView;
-        final TextView mIdView;
-        final TextView mContentView;
-        public Shop mItem;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            mListener.addClickOnShop(getShopByPosition(getAdapterPosition()));
+        }
     }
 }
