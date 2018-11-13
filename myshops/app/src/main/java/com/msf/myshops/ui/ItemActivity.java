@@ -21,7 +21,6 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
 
     private Shop shop;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +44,9 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
 
     @Override
     public void onNewItemSave(Item item) {
+        if(shop == null){
+            shop = new Shop();
+        }
         shop.addItemToShop(item);
         setTitleToolbar(getString(R.string.items));
         itemsFragment.addItemOnAdapter(item);

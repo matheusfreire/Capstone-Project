@@ -7,7 +7,8 @@
     tools:context=".ui.NewItemFragment">
 
 
-    <android.support.design.widget.TextInputLayout android:id="@+id/input_layout_description"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_input_layout"
@@ -15,7 +16,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.design.widget.TextInputEditText android:id="@+id/input_edit_description"
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/input_edit_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/description" />
@@ -26,46 +28,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1"
-        app:layout_constraintTop_toBottomOf="@+id/input_layout_description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_layout_description">
 
-        <android.support.design.widget.TextInputLayout android:id="@+id/input_layout_unit_value"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_unit_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_input_layout"
             android:layout_weight="0.5">
 
-            <android.support.design.widget.TextInputEditText android:id="@+id/input_edit_unit_value"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/input_edit_unit_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/unit_value"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout android:id="@+id/input_layout_quantity"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_input_layout"
             android:layout_weight="0.5">
 
-            <android.support.design.widget.TextInputEditText android:id="@+id/input_edit_quantity"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/input_edit_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/quantity"
-                android:inputType="number"/>
+                android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_adicionar"
+        style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="@string/add"
         android:elevation="5dp"
-        style="@style/Button"
+        android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

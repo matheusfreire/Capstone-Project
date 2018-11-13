@@ -19,7 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
 public class NewItemFragment extends Fragment {
 
     private OnNewItemListener mListener;

@@ -14,6 +14,10 @@ public class Shop implements Parcelable {
     private Date date;
     private double total;
 
+    public Shop(){
+
+    }
+
     protected Shop(Parcel in) {
         itemList = in.createTypedArrayList(Item.CREATOR);
         total = in.readDouble();
