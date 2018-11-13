@@ -4,15 +4,16 @@
     <string name="title_activity_item">ItemActivity</string>
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="descricao">Descrição</string>
-    <string name="valor_unitario">Valor Unitário</string>
-    <string name="quantidade">Quantidade</string>
-    <string name="adicionar">Adicionar</string>
+    <string name="description">Descrição</string>
+    <string name="unit_value">Valor Unitário</string>
+    <string name="quantity">Quantidade</string>
+    <string name="add">Adicionar</string>
     <string name="error_description">Informe a descrição do item</string>
     <string name="error_unit_value">Informe o valor unitário</string>
     <string name="error_quantity">Informe a quantidade</string>
     <string name="an_error_has_occurred">Aconteceu um erro, tente novamente</string>
     <string name="items">Itens</string>
+    <string name="no_shops">No shop founded</string>
+    <string name="no_items_add">No items add yet</string>
+    <string name="add_new_item">Adicionar novo item</string>
 </resources>

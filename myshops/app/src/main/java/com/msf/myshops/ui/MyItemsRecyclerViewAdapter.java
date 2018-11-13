@@ -4,23 +4,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.msf.myshops.R;
 import com.msf.myshops.model.Item;
-import com.msf.myshops.ui.ItemsFragment.OnItemClickListener;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecyclerViewAdapter.ItemViewHolder> {
 
     private final List<Item> mValues;
-    private final OnItemClickListener mListener;
 
-    public MyItemsRecyclerViewAdapter(List<Item> items, ItemsFragment.OnItemClickListener listener) {
+    public MyItemsRecyclerViewAdapter(List<Item> items) {
         mValues = items;
-        mListener = listener;
     }
 
     @Override
@@ -31,7 +30,11 @@ public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecy
 
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
-
+        Item item = getItemByPosition(position);
+        holder.mTextViewAmount.setText(String.valueOf(item.getAmount()));
+        holder.mTextViewDescription.setText(item.getDescription());
+        holder.mTextViewPrice.setText(String.valueOf(item.getValue()));
+        holder.mTextViewQtde.setText(String.valueOf(item.getQuantity()));
     }
 
     @Override
@@ -43,19 +46,26 @@ public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecy
         return mValues.get(position);
     }
 
-    class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        final View mView;
-        Item mItem;
+    public void addItem(Item item){
+        mValues.add(item);
+        notifyDataSetChanged();
+    }
+
+    class ItemViewHolder extends RecyclerView.ViewHolder{
+
+        @BindView(R.id.item_description)
+        TextView mTextViewDescription;
+        @BindView(R.id.item_price)
+        TextView mTextViewPrice;
+        @BindView(R.id.item_qtde)
+        TextView mTextViewQtde;
+        @BindView(R.id.item_amount)
+        TextView mTextViewAmount;
 
         ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            mView = view;
         }
 
-        @Override
-        public void onClick(View view) {
-            mListener.onItemInteraction(getItemByPosition(getAdapterPosition()));
-        }
     }
 }

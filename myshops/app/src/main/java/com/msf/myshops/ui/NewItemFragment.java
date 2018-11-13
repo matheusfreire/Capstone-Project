@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.msf.myshops.R;
 import com.msf.myshops.model.Item;
-import com.msf.myshops.model.Shop;
 
 import java.util.Objects;
 
@@ -26,13 +25,13 @@ public class NewItemFragment extends Fragment {
     private OnNewItemListener mListener;
     private Item mItem;
 
-    @BindView(R.id.input_edit_descricao)
+    @BindView(R.id.input_edit_description)
     TextInputEditText mInputEditDescription;
 
-    @BindView(R.id.input_edit_valor_unitario)
+    @BindView(R.id.input_edit_unit_value)
     TextInputEditText mInputEditUnitValue;
 
-    @BindView(R.id.input_edit_quantidade)
+    @BindView(R.id.input_edit_quantity)
     TextInputEditText mInputEditQuantity;
 
 
@@ -73,10 +72,12 @@ public class NewItemFragment extends Fragment {
 
     @OnClick(R.id.btn_adicionar)
     public void addItem(View view){
-        validateInputs();
-        setValuesOnItem();
-        if(mListener != null){
-            mListener.onNewItemSave(mItem);
+        boolean validate = validateInputs();
+        if(validate){
+            setValuesOnItem();
+            if(mListener != null){
+                mListener.onNewItemSave(mItem);
+            }
         }
     }
 
@@ -87,19 +88,20 @@ public class NewItemFragment extends Fragment {
         mItem.setValue(Double.valueOf(Objects.requireNonNull(mInputEditUnitValue.getText()).toString()));
     }
 
-    private void validateInputs() {
+    private boolean validateInputs() {
         if(inputIsEmpty(mInputEditDescription)){
             putErroMsgOnInputEdit(mInputEditDescription, getString(R.string.error_description));
-            return;
+            return false;
         }
         if(inputIsEmpty(mInputEditUnitValue)){
             putErroMsgOnInputEdit(mInputEditUnitValue, getString(R.string.error_unit_value));
-            return;
+            return false;
         }
         if(inputIsEmpty(mInputEditQuantity)){
             putErroMsgOnInputEdit(mInputEditQuantity, getString(R.string.error_quantity));
-            return;
+            return false;
         }
+        return true;
     }
 
     private void putErroMsgOnInputEdit(TextInputEditText inputEditText, String msgError){

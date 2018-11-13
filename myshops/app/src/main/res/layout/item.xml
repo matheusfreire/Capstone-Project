@@ -34,7 +34,7 @@
             tools:text="Preço Un.: R$ 9,99"/>
 
         <TextView
-            android:id="@+id/qtde_item"
+            android:id="@+id/item_qtde"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/text_margin"

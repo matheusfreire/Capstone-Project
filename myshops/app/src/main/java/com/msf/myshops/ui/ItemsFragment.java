@@ -1,7 +1,5 @@
 package com.msf.myshops.ui;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,6 +10,9 @@ import android.view.ViewGroup;
 import com.msf.myshops.R;
 import com.msf.myshops.model.Item;
 
+import java.util.List;
+import java.util.Objects;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -19,22 +20,21 @@ public class ItemsFragment extends Fragment {
 
     private final int COLUMN_COUNT = 1;
 
-    private OnItemClickListener mListener;
+    private List<Item> mListItems;
 
 
     public ItemsFragment() {
     }
 
-    public static ItemsFragment newInstance(OnItemClickListener onItemClickListener) {
+    public static ItemsFragment newInstance(List<Item> items) {
         ItemsFragment fragment = new ItemsFragment();
-        fragment.mListener = onItemClickListener;
+        fragment.mListItems = items;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -44,29 +44,13 @@ public class ItemsFragment extends Fragment {
         return view;
     }
 
+    public void addItemOnAdapter(Item item){
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnItemClickListener) {
-            mListener = (OnItemClickListener) context;
-        } else {
-            throw new RuntimeException(context.toString()+ " must implement OnItemClickListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @OnClick(R.id.add_new_item)
-    public void addNewBuy(View view){
-
+    public void addNewItem(View view){
+        ((ItemActivity) Objects.requireNonNull(getActivity())).addNewItem();
     }
 
-    public interface OnItemClickListener {
-        void onItemInteraction(Item item);
-    }
 }

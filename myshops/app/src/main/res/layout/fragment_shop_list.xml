@@ -29,7 +29,7 @@
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
         android:layout_margin="@dimen/fab_margin"
-        android:contentDescription="@string/adicionar"
+        android:contentDescription="@string/add"
         android:layout_gravity="bottom|end"
         android:clickable="true"
         android:focusable="true"

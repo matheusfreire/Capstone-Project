@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ui.ItemsFragment"
     tools:listitem="@layout/item">
 
@@ -28,7 +28,7 @@
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
         android:layout_margin="@dimen/fab_margin"
-        android:contentDescription="@string/adicionar"
+        android:contentDescription="@string/add"
         android:layout_gravity="bottom|end"
         android:clickable="true"
         android:focusable="true"

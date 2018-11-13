@@ -12,7 +12,7 @@ import com.msf.myshops.util.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener, ItemsFragment.OnItemClickListener {
+public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener {
 
     private ItemsFragment itemsFragment;
 
@@ -47,12 +47,13 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     public void onNewItemSave(Item item) {
         shop.addItemToShop(item);
         setTitleToolbar(getString(R.string.items));
+        itemsFragment.addItemOnAdapter(item);
         getSupportFragmentManager().beginTransaction().replace(R.id.item_container, itemsFragment).commit();
     }
 
-    @Override
-    public void onItemInteraction(Item item) {
+    public void addNewItem() {
         NewItemFragment newItemFragment = NewItemFragment.newInstance(this);
+        setTitleToolbar(getString(R.string.add_new_item));
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.para_esquerda_entra, R.anim.para_esquerda_sai, R.anim.para_direita_entra, R.anim.para_direita_sai)
                 .replace(R.id.item_container, newItemFragment).addToBackStack(null).commit();
