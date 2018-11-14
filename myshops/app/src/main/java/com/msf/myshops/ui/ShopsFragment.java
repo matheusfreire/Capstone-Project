@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShopsFragment extends Fragment {
+public class ShopsFragment extends BaseFragmentList{
 
     private final int COLUMN_COUNT = 1;
     private OnShopClickListener mListener;
@@ -40,23 +40,22 @@ public class ShopsFragment extends Fragment {
     public ShopsFragment() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shop_list, container, false);
         ButterKnife.bind(this, view);
-        showHideProgress(true);
-        setUpRecyclerView();
         return view;
     }
 
-    private void setUpRecyclerView() {
+    @Override
+    public void setupRecycler() {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerViewShop.setLayoutManager(linearLayoutManager);
         mRecyclerViewShop.setHasFixedSize(true);
     }
 
-    private void showHideProgress(boolean show) {
+    @Override
+    public void showHideProgress(boolean show) {
         mProgress.setVisibility(show ? View.VISIBLE:View.GONE);
     }
 

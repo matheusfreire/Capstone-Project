@@ -3,6 +3,7 @@ package com.msf.myshops.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,9 @@ public class Shop implements Parcelable {
     };
 
     public void addItemToShop(Item item){
+        if(itemList == null){
+            itemList = new ArrayList<>();
+        }
         itemList.add(item);
     }
 

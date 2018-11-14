@@ -38,18 +38,18 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     @Override
     protected void onStart() {
         super.onStart();
-        itemsFragment = new ItemsFragment();
+        if(shop != null){
+            itemsFragment = ItemsFragment.newInstance(shop.getItemList());
+        } else {
+            itemsFragment = new ItemsFragment();
+        }
         getSupportFragmentManager().beginTransaction().replace(R.id.item_container, itemsFragment).commit();
     }
 
     @Override
     public void onNewItemSave(Item item) {
-        if(shop == null){
-            shop = new Shop();
-        }
-        shop.addItemToShop(item);
         setTitleToolbar(getString(R.string.items));
-        itemsFragment.addItemOnAdapter(item);
+        itemsFragment.addItemOnAdapter(shop,item);
         getSupportFragmentManager().beginTransaction().replace(R.id.item_container, itemsFragment).commit();
     }
 
