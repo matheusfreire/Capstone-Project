@@ -58,6 +58,7 @@ public class ItemsFragment extends BaseFragmentList {
         if(mListItems != null){
             putItemsOnAdapter(mListItems);
         }
+        setHasOptionsMenu(true);
     }
 
     private void putItemsOnAdapter(List<Item> listItems) {
@@ -91,6 +92,7 @@ public class ItemsFragment extends BaseFragmentList {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_shop, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
