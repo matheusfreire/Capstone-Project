@@ -17,8 +17,8 @@
             android:id="@+id/recycler_view_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_list"
-            android:layout_marginRight="@dimen/margin_list"
+            android:paddingStart="@dimen/margin_list"
+            android:paddingEnd="@dimen/margin_list"
             tools:listitem="@layout/item"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 

@@ -76,6 +76,7 @@ public class NewItemFragment extends Fragment {
             setValuesOnItem();
             if(mListener != null){
                 mListener.onNewItemSave(mItem);
+                getFragmentManager().popBackStack();
             }
         }
     }

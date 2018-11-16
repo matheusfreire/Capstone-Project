@@ -16,4 +16,8 @@
     <string name="no_shops">No shop founded</string>
     <string name="no_items_add">No items add yet</string>
     <string name="add_new_item">Adicionar novo item</string>
+    <string name="finalize_shop">Finalizar compra</string>
+    <string name="price_item">Preço un. R$ %1$s</string>
+    <string name="price_tag">R$ %1$s</string>
+    <string name="quantity_tag">Quantidade: %1$s</string>
 </resources>

@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 
 public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener {
 
+    public static final String KEY_NEW_ITEM_FRAG = "NEW_ITEM_FRAGMENT";
     private ItemsFragment itemsFragment;
 
     @BindView(R.id.toolbar_item)
@@ -49,8 +50,11 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     @Override
     public void onNewItemSave(Item item) {
         setTitleToolbar(getString(R.string.items));
+//        getSupportFragmentManager().beginTransaction().replace(R.id.item_container, itemsFragment).commit();
+        if(shop == null){
+            shop = new Shop();
+        }
         itemsFragment.addItemOnAdapter(shop,item);
-        getSupportFragmentManager().beginTransaction().replace(R.id.item_container, itemsFragment).commit();
     }
 
     public void addNewItem() {
@@ -58,6 +62,6 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         setTitleToolbar(getString(R.string.add_new_item));
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.para_esquerda_entra, R.anim.para_esquerda_sai, R.anim.para_direita_entra, R.anim.para_direita_sai)
-                .replace(R.id.item_container, newItemFragment).addToBackStack(null).commit();
+                .replace(R.id.item_container, newItemFragment).addToBackStack(KEY_NEW_ITEM_FRAG).commit();
     }
 }

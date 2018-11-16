@@ -14,7 +14,7 @@ public abstract class BaseFragmentList extends Fragment implements ViewSetup {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.setupRecycler();
         this.showHideProgress(true);
+        this.setupRecycler();
     }
 }

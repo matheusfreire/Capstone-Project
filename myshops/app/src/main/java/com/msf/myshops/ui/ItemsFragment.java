@@ -5,15 +5,20 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.msf.myshops.R;
 import com.msf.myshops.model.Item;
 import com.msf.myshops.model.Shop;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,12 +62,10 @@ public class ItemsFragment extends BaseFragmentList {
 
     private void putItemsOnAdapter(List<Item> listItems) {
         if (listItems != null && !listItems.isEmpty()) {
-            if(itemsRecyclerViewAdapter == null){
-                itemsRecyclerViewAdapter = new MyItemsRecyclerViewAdapter(mListItems);
-                mRecyclerViewItem.setAdapter(itemsRecyclerViewAdapter);
-            }
+            initAdapter();
+            mRecyclerViewItem.setAdapter(itemsRecyclerViewAdapter);
+            showHideProgress(false);
         }
-        showHideProgress(false);
     }
 
     @Override
@@ -77,22 +80,48 @@ public class ItemsFragment extends BaseFragmentList {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerViewItem.setLayoutManager(linearLayoutManager);
         mRecyclerViewItem.setHasFixedSize(true);
+        putItemsOnAdapter(mListItems);
     }
 
     @Override
     public void showHideProgress(boolean show) {
-        mProgress.setVisibility(show ? View.VISIBLE:View.GONE);
+        mProgress.setVisibility(show ? View.VISIBLE:View.INVISIBLE);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_shop, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            getFragmentManager().popBackStack();
+            return true;
+        } else if(id == R.id.finish_shop){
+            Toast.makeText(getContext(), "Teste", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void addItemOnAdapter(Shop shop, Item item){
-        if(shop == null){
-            shop = new Shop();
-        }
+        initList();
+        mListItems.add(item);
         shop.addItemToShop(item);
-        if(itemsRecyclerViewAdapter == null){
-            itemsRecyclerViewAdapter = new MyItemsRecyclerViewAdapter();
+        initAdapter();
+    }
+
+    private void initList() {
+        if(mListItems == null){
+            mListItems = new ArrayList<>();
         }
-        itemsRecyclerViewAdapter.addItem(item);
+    }
+
+    private void initAdapter() {
+        if(itemsRecyclerViewAdapter == null){
+            itemsRecyclerViewAdapter = new MyItemsRecyclerViewAdapter(mListItems);
+        }
     }
 
     @OnClick(R.id.add_new_item)

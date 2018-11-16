@@ -1,5 +1,6 @@
 package com.msf.myshops.ui;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,9 +20,7 @@ import butterknife.ButterKnife;
 public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecyclerViewAdapter.ItemViewHolder> {
 
     private List<Item> mValues;
-
-    MyItemsRecyclerViewAdapter() {
-    }
+    private Context context;
 
     MyItemsRecyclerViewAdapter(List<Item> items) {
         mValues = items;
@@ -30,6 +29,7 @@ public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecy
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         return new ItemViewHolder(view);
     }
@@ -37,10 +37,11 @@ public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecy
     @Override
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, int position) {
         Item item = getItemByPosition(position);
-        holder.mTextViewAmount.setText(String.valueOf(item.getAmount()));
         holder.mTextViewDescription.setText(item.getDescription());
-        holder.mTextViewPrice.setText(String.valueOf(item.getValue()));
-        holder.mTextViewQtde.setText(String.valueOf(item.getQuantity()));
+        double amount = item.getValue() * item.getQuantity();
+        holder.mTextViewAmount.setText(context.getString(R.string.price_tag,String.valueOf(amount)));
+        holder.mTextViewPrice.setText(context.getString(R.string.price_item,String.valueOf(item.getValue())));
+        holder.mTextViewQtde.setText(context.getString(R.string.quantity_tag,String.valueOf(item.getQuantity())));
     }
 
     @Override
