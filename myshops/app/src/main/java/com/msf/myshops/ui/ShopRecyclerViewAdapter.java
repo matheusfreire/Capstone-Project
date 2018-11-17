@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Shop> mValues = null;
+    private List<Shop> mValues;
     private final OnShopClickListener mListener;
 
     public ShopRecyclerViewAdapter(OnShopClickListener listener) {
@@ -39,6 +39,11 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
 
     private Shop getShopByPosition(int position){
         return mValues.get(position);
+    }
+
+    public void addItem(Shop shop) {
+        mValues.add(shop);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

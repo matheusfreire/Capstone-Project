@@ -9,10 +9,12 @@ import com.msf.myshops.model.Item;
 import com.msf.myshops.model.Shop;
 import com.msf.myshops.util.Constants;
 
+import java.io.Serializable;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener {
+public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener, ItemsFragment.ShopInterfaceListener {
 
     public static final String KEY_NEW_ITEM_FRAG = "NEW_ITEM_FRAGMENT";
     private ItemsFragment itemsFragment;
@@ -21,6 +23,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     Toolbar mToolbarItem;
 
     private Shop shop;
+    private ShopListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         setSupportActionBar(mToolbarItem);
         setTitleToolbar(getString(R.string.items));
         shop = getIntent().getParcelableExtra(Constants.SHOP.getKey());
+        mListener = (ShopListener) getIntent().getSerializableExtra(Constants.NEW_SHOP_IMPL.getKey());
     }
 
     public void setTitleToolbar(String title){
@@ -39,18 +43,16 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     @Override
     protected void onStart() {
         super.onStart();
-        if(shop != null){
-            itemsFragment = ItemsFragment.newInstance(shop.getItemList());
-        } else {
-            itemsFragment = new ItemsFragment();
+        if(shop == null){
+            shop = new Shop();
         }
+        itemsFragment = ItemsFragment.newInstance(shop, this);
         getSupportFragmentManager().beginTransaction().replace(R.id.item_container, itemsFragment).commit();
     }
 
     @Override
     public void onNewItemSave(Item item) {
         setTitleToolbar(getString(R.string.items));
-//        getSupportFragmentManager().beginTransaction().replace(R.id.item_container, itemsFragment).commit();
         if(shop == null){
             shop = new Shop();
         }
@@ -63,5 +65,14 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.para_esquerda_entra, R.anim.para_esquerda_sai, R.anim.para_direita_entra, R.anim.para_direita_sai)
                 .replace(R.id.item_container, newItemFragment).addToBackStack(KEY_NEW_ITEM_FRAG).commit();
+    }
+
+    @Override
+    public void onShopFinalize() {
+
+    }
+
+    interface ShopListener extends Serializable{
+        void onFinalize(Shop shop);
     }
 }

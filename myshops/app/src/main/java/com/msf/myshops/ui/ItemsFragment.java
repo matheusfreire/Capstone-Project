@@ -37,18 +37,21 @@ public class ItemsFragment extends BaseFragmentList {
     @BindView(R.id.progress_loading)
     ProgressBar mProgress;
 
-    private final int COLUMN_COUNT = 1;
-
     private List<Item> mListItems;
+    private Shop shop;
     private MyItemsRecyclerViewAdapter itemsRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private ShopInterfaceListener mListener;
 
-    public ItemsFragment() {
+    public ItemsFragment(){
+
     }
 
-    public static ItemsFragment newInstance(List<Item> items) {
+    public static ItemsFragment newInstance(Shop shop, ShopInterfaceListener listener) {
         ItemsFragment fragment = new ItemsFragment();
-        fragment.mListItems = items;
+        fragment.shop = shop;
+        fragment.mListItems = shop.getItemList();
+        fragment.mListener = listener;
         return fragment;
     }
 
@@ -91,7 +94,9 @@ public class ItemsFragment extends BaseFragmentList {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_shop, menu);
+        if(!shop.isFinalize()){
+            inflater.inflate(R.menu.menu_shop, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -102,7 +107,7 @@ public class ItemsFragment extends BaseFragmentList {
             getFragmentManager().popBackStack();
             return true;
         } else if(id == R.id.finish_shop){
-            Toast.makeText(getContext(), "Teste", Toast.LENGTH_SHORT).show();
+            mListener.onShopFinalize();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -129,6 +134,10 @@ public class ItemsFragment extends BaseFragmentList {
     @OnClick(R.id.add_new_item)
     public void addNewItem(View view){
         ((ItemActivity) Objects.requireNonNull(getActivity())).addNewItem();
+    }
+
+    interface ShopInterfaceListener{
+        void onShopFinalize();
     }
 
 }

@@ -36,6 +36,7 @@ public class ShopsFragment extends BaseFragmentList{
     ProgressBar mProgress;
 
     private LinearLayoutManager linearLayoutManager;
+    private ShopRecyclerViewAdapter shopRecyclerViewAdapter;
 
     public ShopsFragment() {
     }
@@ -60,11 +61,6 @@ public class ShopsFragment extends BaseFragmentList{
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnShopClickListener) {
@@ -75,7 +71,7 @@ public class ShopsFragment extends BaseFragmentList{
     }
 
     @OnClick(R.id.add_new_shop)
-    public void addNewBuy(View view){
+    public void addNewShop(View view){
         Intent intent = new Intent(getContext(), ItemActivity.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.para_esquerda_entra, R.anim.para_esquerda_sai);
@@ -85,6 +81,10 @@ public class ShopsFragment extends BaseFragmentList{
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void addShopToRecycler(Shop shop) {
+        shopRecyclerViewAdapter.addItem(shop);
     }
 
     public interface OnShopClickListener {
