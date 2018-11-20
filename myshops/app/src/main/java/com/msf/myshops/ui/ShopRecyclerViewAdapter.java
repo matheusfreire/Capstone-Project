@@ -12,7 +12,7 @@ import com.msf.myshops.ui.ShopsFragment.OnShopClickListener;
 
 import java.util.List;
 
-public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerViewAdapter.ViewHolder> {
+public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerViewAdapter.ViewHolder> implements ShopsFragment.OnShopClickListener{
 
     private List<Shop> mValues;
     private final OnShopClickListener mListener;
@@ -44,6 +44,11 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
     public void addItem(Shop shop) {
         mValues.add(shop);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void addClickOnShop(Shop shop) {
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

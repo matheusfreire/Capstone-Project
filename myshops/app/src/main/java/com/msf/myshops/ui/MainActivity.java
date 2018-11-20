@@ -8,9 +8,12 @@ import com.msf.myshops.R;
 import com.msf.myshops.model.Shop;
 import com.msf.myshops.util.Constants;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements ShopsFragment.OnShopClickListener, ItemActivity.ShopListener{
 
     private ShopsFragment shopsFragment;
+    private List<Shop> shopList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,5 +34,10 @@ public class MainActivity extends AppCompatActivity implements ShopsFragment.OnS
     @Override
     public void onFinalize(Shop shop) {
        shopsFragment.addShopToRecycler(shop);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 }
