@@ -1,5 +1,8 @@
 package com.msf.myshops.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,16 +13,30 @@ import java.util.List;
 import lombok.Data;
 
 @Data
+@Entity(tableName = "shops")
 public class Shop implements Parcelable {
+
+    @PrimaryKey
+    private String hashId;
+
     private List<Item> itemList;
     private Date date;
     private double total;
     private boolean finalize;
 
+    @Ignore
     public Shop(){
 
     }
 
+    public Shop(String hashId, Date date, double total, boolean finalize) {
+        this.hashId = hashId;
+        this.date = date;
+        this.total = total;
+        this.finalize = finalize;
+    }
+
+    @Ignore
     protected Shop(Parcel in) {
         itemList = in.createTypedArrayList(Item.CREATOR);
         total = in.readDouble();

@@ -1,13 +1,18 @@
 package com.msf.myshops.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import lombok.Data;
 
 @Data
+@Entity(tableName = "items")
 public class Item implements Parcelable{
 
+    @PrimaryKey
     private String description;
 
     private double value;
@@ -16,10 +21,19 @@ public class Item implements Parcelable{
 
     private double amount;
 
+    @Ignore
     public Item(){
 
     }
 
+    public Item(String description, double value, int quantity, double amount) {
+        this.description = description;
+        this.value = value;
+        this.quantity = quantity;
+        this.amount = amount;
+    }
+
+    @Ignore
     protected Item(Parcel in) {
         description = in.readString();
         value = in.readDouble();
