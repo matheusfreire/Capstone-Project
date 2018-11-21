@@ -1,7 +1,9 @@
 package com.msf.myshops.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,13 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.msf.myshops.R;
+import com.msf.myshops.db.MyShopDatabase;
 import com.msf.myshops.model.Item;
 import com.msf.myshops.model.Shop;
+import com.msf.myshops.viewmodel.ItemViewModel;
+import com.msf.myshops.viewmodel.ItemViewModelFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,59 +40,74 @@ public class ItemsFragment extends BaseFragmentList {
     @BindView(R.id.progress_loading)
     ProgressBar mProgress;
 
-    private List<Item> mListItems;
     private Shop shop;
-    private MyItemsRecyclerViewAdapter itemsRecyclerViewAdapter;
-    private LinearLayoutManager linearLayoutManager;
-    private ShopInterfaceListener mListener;
+    private ItemViewModel itemViewModel;
+    private ShopFinalize mListenerFinalize;
 
     public ItemsFragment(){
 
     }
 
-    public static ItemsFragment newInstance(Shop shop, ShopInterfaceListener listener) {
+    public static ItemsFragment newInstance(Shop shop, ShopFinalize listenerFinalize) {
         ItemsFragment fragment = new ItemsFragment();
         fragment.shop = shop;
-        fragment.mListItems = shop.getItemList();
-        fragment.mListener = listener;
+        fragment.mListenerFinalize = listenerFinalize;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(mListItems != null){
-            putItemsOnAdapter(mListItems);
-        }
         setHasOptionsMenu(true);
-    }
-
-    private void putItemsOnAdapter(List<Item> listItems) {
-        if (listItems != null && !listItems.isEmpty()) {
-            initAdapter();
-            mRecyclerViewItem.setAdapter(itemsRecyclerViewAdapter);
-            showHideProgress(false);
-        }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         ButterKnife.bind(this, view);
+        ItemViewModelFactory factory = new ItemViewModelFactory(MyShopDatabase.getInstance(getContext()), shop.getUid());
+        itemViewModel = ViewModelProviders.of(this, factory).get(ItemViewModel.class);
         return view;
+    }
+
+    private void showNoItemAdd() {
+        mErrorView.setText(getString(R.string.no_items_add));
+        mRecyclerViewItem.setVisibility(View.INVISIBLE);
+        mErrorView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void setupRecycler() {
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerViewItem.setLayoutManager(linearLayoutManager);
         mRecyclerViewItem.setHasFixedSize(true);
-        putItemsOnAdapter(mListItems);
     }
 
     @Override
     public void showHideProgress(boolean show) {
         mProgress.setVisibility(show ? View.VISIBLE:View.INVISIBLE);
+    }
+
+    @Override
+    public void observableFromVm() {
+        if(itemViewModel != null){
+           itemViewModel.getItemsLiveData().observe(this, this::buildRecyclerOrErroView);
+        }
+    }
+    private void buildRecyclerOrErroView(@Nullable List<Item> items){
+        if(items == null || items.isEmpty()){
+            showNoItemAdd();
+        } else {
+            buildAdapter(items);
+        }
+        showHideProgress(false);
+    }
+
+    private void buildAdapter(List<Item> items) {
+        MyItemsRecyclerViewAdapter itemsRecyclerViewAdapter = new MyItemsRecyclerViewAdapter(items);
+        mRecyclerViewItem.setAdapter(itemsRecyclerViewAdapter);
+        mRecyclerViewItem.setVisibility(View.VISIBLE);
+        mErrorView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -107,37 +125,24 @@ public class ItemsFragment extends BaseFragmentList {
             getFragmentManager().popBackStack();
             return true;
         } else if(id == R.id.finish_shop){
-            mListener.onShopFinalize();
+            shop.setItemList(itemViewModel.getItemsLiveData().getValue());
+            mListenerFinalize.onShopFinalize(shop);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
-    public void addItemOnAdapter(Shop shop, Item item){
-        initList();
-        mListItems.add(item);
-        shop.addItemToShop(item);
-        initAdapter();
+    public void addItemOnAdapter(Item item){
+        itemViewModel.getItemsLiveData().getValue().add(item);
     }
 
-    private void initList() {
-        if(mListItems == null){
-            mListItems = new ArrayList<>();
-        }
-    }
-
-    private void initAdapter() {
-        if(itemsRecyclerViewAdapter == null){
-            itemsRecyclerViewAdapter = new MyItemsRecyclerViewAdapter(mListItems);
-        }
-    }
 
     @OnClick(R.id.add_new_item)
     public void addNewItem(View view){
         ((ItemActivity) Objects.requireNonNull(getActivity())).addNewItem();
     }
 
-    interface ShopInterfaceListener{
-        void onShopFinalize();
+    interface ShopFinalize {
+        void onShopFinalize(Shop shop);
     }
 
 }

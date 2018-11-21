@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.msf.myshops.util.ViewSetup;
-
 public abstract class BaseFragmentList extends Fragment implements ViewSetup {
 
 
@@ -16,5 +14,6 @@ public abstract class BaseFragmentList extends Fragment implements ViewSetup {
         super.onViewCreated(view, savedInstanceState);
         this.showHideProgress(true);
         this.setupRecycler();
+        this.observableFromVm();
     }
 }

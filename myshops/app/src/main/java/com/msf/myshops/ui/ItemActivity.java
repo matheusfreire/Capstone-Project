@@ -1,5 +1,6 @@
 package com.msf.myshops.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +15,7 @@ import java.io.Serializable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener, ItemsFragment.ShopInterfaceListener {
+public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener, ItemsFragment.ShopFinalize{
 
     public static final String KEY_NEW_ITEM_FRAG = "NEW_ITEM_FRAGMENT";
     private ItemsFragment itemsFragment;
@@ -23,7 +24,6 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     Toolbar mToolbarItem;
 
     private Shop shop;
-    private ShopListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +33,16 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         setSupportActionBar(mToolbarItem);
         setTitleToolbar(getString(R.string.items));
         shop = getIntent().getParcelableExtra(Constants.SHOP.getKey());
-        mListener = (ShopListener) getIntent().getSerializableExtra(Constants.NEW_SHOP_IMPL.getKey());
     }
 
-    public void setTitleToolbar(String title){
+    public void setTitleToolbar(String title) {
         mToolbarItem.setTitle(title);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(shop == null){
+        if (shop == null) {
             shop = new Shop();
         }
         itemsFragment = ItemsFragment.newInstance(shop, this);
@@ -53,10 +52,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     @Override
     public void onNewItemSave(Item item) {
         setTitleToolbar(getString(R.string.items));
-        if(shop == null){
-            shop = new Shop();
-        }
-        itemsFragment.addItemOnAdapter(shop,item);
+        itemsFragment.addItemOnAdapter(item);
     }
 
     public void addNewItem() {
@@ -68,11 +64,10 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     }
 
     @Override
-    public void onShopFinalize() {
-
-    }
-
-    interface ShopListener extends Serializable{
-        void onFinalize(Shop shop);
+    public void onShopFinalize(Shop shop) {
+        Intent data = new Intent();
+        data.putExtra(Constants.SHOP.getKey(), shop);
+        setResult(RESULT_OK, data);
+        finish();
     }
 }

@@ -2,24 +2,22 @@ package com.msf.myshops.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.msf.myshops.R;
 import com.msf.myshops.model.Shop;
 import com.msf.myshops.util.Constants;
 
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity implements ShopsFragment.OnShopClickListener, ItemActivity.ShopListener{
+public class MainActivity extends AppCompatActivity implements ShopsFragment.OnShopClickListener{
 
     private ShopsFragment shopsFragment;
-    private List<Shop> shopList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        shopsFragment = new ShopsFragment();
+        shopsFragment = ShopsFragment.newInstance(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, shopsFragment).commit();
     }
 
@@ -32,12 +30,14 @@ public class MainActivity extends AppCompatActivity implements ShopsFragment.OnS
     }
 
     @Override
-    public void onFinalize(Shop shop) {
-       shopsFragment.addShopToRecycler(shop);
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if(data != null){
+                Shop shop = data.getParcelableExtra(Constants.SHOP.getKey());
+                shopsFragment.insertShop(shop);
+            }
+        }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
 }

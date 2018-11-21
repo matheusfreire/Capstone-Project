@@ -17,8 +17,9 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
     private List<Shop> mValues;
     private final OnShopClickListener mListener;
 
-    public ShopRecyclerViewAdapter(OnShopClickListener listener) {
+    ShopRecyclerViewAdapter(OnShopClickListener listener, List<Shop> shops) {
         mListener = listener;
+        mValues = shops;
     }
 
     @NonNull
@@ -41,7 +42,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
         return mValues.get(position);
     }
 
-    public void addItem(Shop shop) {
+    void addItem(Shop shop) {
         mValues.add(shop);
         notifyDataSetChanged();
     }

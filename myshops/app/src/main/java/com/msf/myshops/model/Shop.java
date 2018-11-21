@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,8 +18,10 @@ import lombok.Data;
 public class Shop implements Parcelable {
 
     @PrimaryKey
-    private String hashId;
+    @NonNull
+    private String uid;
 
+    @Ignore
     private List<Item> itemList;
     private Date date;
     private double total;
@@ -29,8 +32,8 @@ public class Shop implements Parcelable {
 
     }
 
-    public Shop(String hashId, Date date, double total, boolean finalize) {
-        this.hashId = hashId;
+    public Shop(@NonNull String uid, Date date, double total, boolean finalize) {
+        this.uid = uid;
         this.date = date;
         this.total = total;
         this.finalize = finalize;

@@ -38,8 +38,7 @@ public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecy
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, int position) {
         Item item = getItemByPosition(position);
         holder.mTextViewDescription.setText(item.getDescription());
-        double amount = item.getValue() * item.getQuantity();
-        holder.mTextViewAmount.setText(context.getString(R.string.price_tag,String.valueOf(amount)));
+        holder.mTextViewAmount.setText(context.getString(R.string.price_tag,String.valueOf(item.getAmount())));
         holder.mTextViewPrice.setText(context.getString(R.string.price_item,String.valueOf(item.getValue())));
         holder.mTextViewQtde.setText(context.getString(R.string.quantity_tag,String.valueOf(item.getQuantity())));
     }

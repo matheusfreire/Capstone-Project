@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import lombok.Data;
 
@@ -13,12 +14,16 @@ import lombok.Data;
 public class Item implements Parcelable{
 
     @PrimaryKey
+    @NonNull
+    private String uid;
+
     private String description;
 
     private double value;
 
     private int quantity;
 
+    @Ignore
     private double amount;
 
     @Ignore
@@ -26,11 +31,11 @@ public class Item implements Parcelable{
 
     }
 
-    public Item(String description, double value, int quantity, double amount) {
+    public Item(@NonNull String uid, String description, double value, int quantity) {
+        this.uid = uid;
         this.description = description;
         this.value = value;
         this.quantity = quantity;
-        this.amount = amount;
     }
 
     @Ignore
@@ -64,5 +69,9 @@ public class Item implements Parcelable{
         parcel.writeDouble(value);
         parcel.writeInt(quantity);
         parcel.writeDouble(amount);
+    }
+
+    public double getAmount() {
+        return this.getValue() * this.getQuantity();
     }
 }

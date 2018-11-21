@@ -1,11 +1,24 @@
 package com.msf.myshops.viewmodel;
 
-import android.app.Application;
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-public class ItemViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
-    public ItemViewModelFactory(@NonNull Application application) {
-        super(application);
+import com.msf.myshops.db.MyShopDatabase;
+
+public class ItemViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+
+    private MyShopDatabase myShopDatabase;
+    private String shopUid;
+
+    public ItemViewModelFactory(MyShopDatabase myShopDatabase, String shopUid) {
+        this.myShopDatabase = myShopDatabase;
+        this.shopUid = shopUid;
+    }
+
+    @NonNull
+    @Override
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+        return (T) new ItemViewModel(this.myShopDatabase, this.shopUid);
     }
 }

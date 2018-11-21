@@ -6,16 +6,17 @@ import android.arch.lifecycle.ViewModel;
 import com.msf.myshops.db.MyShopDatabase;
 import com.msf.myshops.model.Item;
 
+import java.util.List;
+
+import lombok.Getter;
+
 public class ItemViewModel extends ViewModel{
 
-    private LiveData<Item> itemsLiveData;
+    @Getter
+    private LiveData<List<Item>> itemsLiveData;
 
     public ItemViewModel(MyShopDatabase database, String shopHashId) {
-//        task = database.taskDao().loadTaskById(taskId);
+        itemsLiveData = database.getShopItemDao().getItemsFromShops(shopHashId);
     }
 
-
-    public LiveData<Item> getItemsLiveData() {
-        return itemsLiveData;
-    }
 }
