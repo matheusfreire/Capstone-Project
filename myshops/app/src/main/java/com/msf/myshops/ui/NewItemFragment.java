@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import com.msf.myshops.R;
 import com.msf.myshops.model.Item;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
+import br.com.concrete.canarinho.watcher.ValorMonetarioWatcher;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -69,6 +71,12 @@ public class NewItemFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mInputEditUnitValue.addTextChangedListener(new ValorMonetarioWatcher());
+    }
+
     @OnClick(R.id.btn_adicionar)
     public void addItem(View view){
         boolean validate = validateInputs();
@@ -85,7 +93,14 @@ public class NewItemFragment extends Fragment {
         mItem = new Item();
         mItem.setDescription(Objects.requireNonNull(mInputEditDescription.getText()).toString());
         mItem.setQuantity(Integer.valueOf(Objects.requireNonNull(mInputEditQuantity.getText()).toString()));
-        mItem.setValue(Double.valueOf(Objects.requireNonNull(mInputEditUnitValue.getText()).toString()));
+        mItem.setValue(Double.valueOf(Objects.requireNonNull(convertValueStringToDouble(mInputEditUnitValue.getText().toString())).toString()));
+    }
+
+    private double convertValueStringToDouble(String value){
+        value = value.replace(".","");
+        value = value.replace(",", ".");
+        value = value.trim();
+        return new BigDecimal(value).doubleValue();
     }
 
     private boolean validateInputs() {

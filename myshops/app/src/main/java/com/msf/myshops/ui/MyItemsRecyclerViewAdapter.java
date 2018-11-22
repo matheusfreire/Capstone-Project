@@ -14,6 +14,7 @@ import com.msf.myshops.model.Item;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.concrete.canarinho.formatador.Formatador;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -38,8 +39,10 @@ public class MyItemsRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsRecy
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, int position) {
         Item item = getItemByPosition(position);
         holder.mTextViewDescription.setText(item.getDescription());
-        holder.mTextViewAmount.setText(context.getString(R.string.price_tag,String.valueOf(item.getAmount())));
-        holder.mTextViewPrice.setText(context.getString(R.string.price_item,String.valueOf(item.getValue())));
+        String amount = Formatador.VALOR.formata(String.valueOf(item.getAmount()));
+        holder.mTextViewAmount.setText(context.getString(R.string.price_tag,amount));
+        String price = Formatador.VALOR.formata(String.valueOf(item.getValue()));
+        holder.mTextViewPrice.setText(context.getString(R.string.price_item,price));
         holder.mTextViewQtde.setText(context.getString(R.string.quantity_tag,String.valueOf(item.getQuantity())));
     }
 
