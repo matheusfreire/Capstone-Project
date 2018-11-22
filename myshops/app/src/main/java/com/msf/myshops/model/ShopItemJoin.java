@@ -21,7 +21,7 @@ public class ShopItemJoin {
     @NonNull
     private String shopUid, itemUid;
 
-    public ShopItemJoin(String shopUid, String itemUid) {
+    public ShopItemJoin(@NonNull String shopUid, @NonNull String itemUid) {
         this.shopUid = shopUid;
         this.itemUid = itemUid;
     }

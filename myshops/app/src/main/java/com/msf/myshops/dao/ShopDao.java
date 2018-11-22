@@ -5,25 +5,43 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.Update;
 
+import com.msf.myshops.db.MyShopDatabase;
+import com.msf.myshops.model.Item;
 import com.msf.myshops.model.Shop;
+import com.msf.myshops.model.ShopItemJoin;
 
 import java.util.List;
+import java.util.UUID;
 
 @Dao
-public interface ShopDao {
+public abstract class ShopDao {
 
     @Insert
-    void insert(Shop... shops);
+    abstract void insert(Shop... shops);
 
     @Update
-    void update(Shop... shops);
+    abstract void update(Shop... shops);
 
     @Delete
-    void delete(Shop... shops);
+    abstract void delete(Shop... shops);
 
     @Query("SELECT * FROM shops")
-    LiveData<List<Shop>> getShops();
+    public abstract LiveData<List<Shop>> getShops();
+
+    @Transaction
+    public void insertShopAndItems(Shop shop, MyShopDatabase database){
+        insert(shop);
+        for(Item item : shop.getItemList()){
+            if(item.getUid() == null){
+                item.setUid(UUID.randomUUID().toString());
+            }
+            ShopItemJoin shopItemJoin = new ShopItemJoin(shop.getUid(), item.getUid());
+            database.getItemDao().insert(item);
+            database.getShopItemDao().insert(shopItemJoin);
+        }
+    }
 
 }

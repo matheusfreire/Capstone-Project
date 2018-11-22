@@ -6,11 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.msf.myshops.R;
+import com.msf.myshops.db.MyShopDatabase;
 import com.msf.myshops.model.Item;
 import com.msf.myshops.model.Shop;
+import com.msf.myshops.util.AppExecutor;
 import com.msf.myshops.util.Constants;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,5 +72,12 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         data.putExtra(Constants.SHOP.getKey(), shop);
         setResult(RESULT_OK, data);
         finish();
+        AppExecutor.getInstance().getDbIo().execute(() -> {
+            MyShopDatabase database = MyShopDatabase.getInstance(getApplicationContext());
+            if(shop.getUid() == null){
+                shop.setUid(UUID.randomUUID().toString());
+            }
+            database.getShopDao().insertShopAndItems(shop, database);
+        });
     }
 }
