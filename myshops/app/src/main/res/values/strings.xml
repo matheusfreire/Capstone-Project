@@ -20,4 +20,6 @@
     <string name="price_item">Preço un. R$ %1$s</string>
     <string name="price_tag">R$ %1$s</string>
     <string name="quantity_tag">Quantidade: %1$s</string>
+    <string name="total_shop">Total: R$ %1$s</string>
+    <string name="qtde_itens">Qtde Itens: %1$s</string>
 </resources>

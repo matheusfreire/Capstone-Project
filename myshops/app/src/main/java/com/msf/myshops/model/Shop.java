@@ -85,4 +85,7 @@ public class Shop implements Parcelable {
         itemList.remove(position);
     }
 
+    public void addAmountForItem(double amount) {
+        this.total += amount;
+    }
 }

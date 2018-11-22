@@ -40,7 +40,7 @@
             android:textAppearance="@style/TextNormal"
             app:layout_constraintLeft_toLeftOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@id/date_shop"
-            tools:text="Qtde Itens: 40"/>
+            tools:text="Total: R$ 129,30"/>
 
         <TextView
             android:id="@+id/qtde_items"
@@ -51,7 +51,7 @@
             android:textAppearance="@style/TextNormal"
             app:layout_constraintLeft_toLeftOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@id/total"
-            tools:text="R$ 129,30"/>
+            tools:text="Qtde itens: 39"/>
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline"
