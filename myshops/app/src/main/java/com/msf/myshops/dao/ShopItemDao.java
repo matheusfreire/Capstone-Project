@@ -18,4 +18,5 @@ public interface ShopItemDao {
     @Query("SELECT * FROM items i INNER JOIN shop_item_join sij ON " +
            "i.uid=sij.itemUid WHERE sij.shopUid=:shopUid")
     LiveData<List<Item>> getItemsFromShops(final String shopUid);
+
 }

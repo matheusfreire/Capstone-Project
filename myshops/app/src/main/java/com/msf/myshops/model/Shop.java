@@ -26,6 +26,7 @@ public class Shop implements Parcelable {
     private Date date;
     private double total;
     private boolean finalize;
+    private int totalItems;
 
     @Ignore
     public Shop(){

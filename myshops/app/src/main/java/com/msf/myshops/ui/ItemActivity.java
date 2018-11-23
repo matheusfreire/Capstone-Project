@@ -18,7 +18,7 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener, ItemsFragment.ShopFinalize{
+public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener{
 
     public static final String KEY_NEW_ITEM_FRAG = "NEW_ITEM_FRAGMENT";
     private ItemsFragment itemsFragment;
@@ -48,7 +48,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         if (shop == null) {
             shop = new Shop();
         }
-        itemsFragment = ItemsFragment.newInstance(shop, this);
+        itemsFragment = ItemsFragment.newInstance(shop);
         getSupportFragmentManager().beginTransaction().replace(R.id.item_container, itemsFragment).commit();
     }
 
@@ -66,18 +66,4 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
                 .replace(R.id.item_container, newItemFragment).addToBackStack(KEY_NEW_ITEM_FRAG).commit();
     }
 
-    @Override
-    public void onShopFinalize(Shop shop) {
-        Intent data = new Intent();
-        data.putExtra(Constants.SHOP.getKey(), shop);
-        setResult(RESULT_OK, data);
-        finish();
-        AppExecutor.getInstance().getDbIo().execute(() -> {
-            MyShopDatabase database = MyShopDatabase.getInstance(getApplicationContext());
-            if(shop.getUid() == null){
-                shop.setUid(UUID.randomUUID().toString());
-            }
-            database.getShopDao().insertShopAndItems(shop, database);
-        });
-    }
 }

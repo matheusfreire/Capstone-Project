@@ -33,6 +33,7 @@ public abstract class ShopDao {
 
     @Transaction
     public void insertShopAndItems(Shop shop, MyShopDatabase database){
+        insert(shop);
         for(Item item : shop.getItemList()){
             if(item.getUid() == null){
                 item.setUid(UUID.randomUUID().toString());
@@ -42,7 +43,7 @@ public abstract class ShopDao {
             database.getShopItemDao().insert(shopItemJoin);
             shop.addAmountForItem(item.getAmount());
         }
-        insert(shop);
+        update(shop);
     }
 
 }

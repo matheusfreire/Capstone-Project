@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import br.com.concrete.canarinho.formatador.Formatador;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerViewAdapter.ViewHolder> implements ShopsFragment.OnShopClickListener{
 
@@ -45,7 +46,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
         Shop shop = getShopByPosition(position);
         String total = Formatador.VALOR.formata(String.valueOf(shop.getTotal()));
         holder.mTotal.setText(context.getString(R.string.total_shop,total));
-        holder.mQtdeItens.setText(context.getString(R.string.qtde_itens, String.valueOf(shop.getItemList().size())));
+        holder.mQtdeItens.setText(context.getString(R.string.qtde_itens, String.valueOf(shop.getTotalItems())));
         holder.mTextViewDate.setText(formatStringDate(shop.getDate()));
     }
 
@@ -87,6 +88,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
 
         ViewHolder(View view) {
             super(view);
+            ButterKnife.bind(this, view);
             mView = view;
             mView.setOnClickListener(this);
         }

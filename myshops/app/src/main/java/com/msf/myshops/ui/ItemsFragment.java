@@ -1,6 +1,7 @@
 package com.msf.myshops.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,15 +20,21 @@ import com.msf.myshops.R;
 import com.msf.myshops.db.MyShopDatabase;
 import com.msf.myshops.model.Item;
 import com.msf.myshops.model.Shop;
+import com.msf.myshops.util.AppExecutor;
+import com.msf.myshops.util.Constants;
 import com.msf.myshops.viewmodel.ItemViewModel;
 import com.msf.myshops.viewmodel.ItemViewModelFactory;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ItemsFragment extends BaseFragmentList {
 
@@ -42,16 +49,14 @@ public class ItemsFragment extends BaseFragmentList {
 
     private Shop shop;
     private ItemViewModel itemViewModel;
-    private ShopFinalize mListenerFinalize;
 
     public ItemsFragment(){
 
     }
 
-    public static ItemsFragment newInstance(Shop shop, ShopFinalize listenerFinalize) {
+    public static ItemsFragment newInstance(Shop shop) {
         ItemsFragment fragment = new ItemsFragment();
         fragment.shop = shop;
-        fragment.mListenerFinalize = listenerFinalize;
         return fragment;
     }
 
@@ -126,7 +131,16 @@ public class ItemsFragment extends BaseFragmentList {
             return true;
         } else if(id == R.id.finish_shop){
             shop.setItemList(itemViewModel.getItemsLiveData().getValue());
-            mListenerFinalize.onShopFinalize(shop);
+            shop.setTotalItems(shop.getItemList().size());
+            shop.setDate(new Date());
+            AppExecutor.getInstance().getDbIo().execute(() -> {
+                MyShopDatabase database = MyShopDatabase.getInstance(getContext());
+                if(shop.getUid() == null){
+                    shop.setUid(UUID.randomUUID().toString());
+                }
+                database.getShopDao().insertShopAndItems(shop, database);
+            });
+            getActivity().finish();
         }
         return true;
     }
@@ -139,10 +153,6 @@ public class ItemsFragment extends BaseFragmentList {
     @OnClick(R.id.add_new_item)
     public void addNewItem(View view){
         ((ItemActivity) Objects.requireNonNull(getActivity())).addNewItem();
-    }
-
-    interface ShopFinalize {
-        void onShopFinalize(Shop shop);
     }
 
 }
