@@ -16,6 +16,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "version"
+    productFlavors {
+        free {
+            dimension "version"
+            applicationIdSuffix "free"
+            versionNameSuffix "-free"
+        }
+
+        paid {
+            dimension "version"
+            applicationIdSuffix "paid"
+            versionNameSuffix "-paid"
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -47,8 +61,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:${arch_version}"
     implementation 'br.com.concrete:canarinho:2.0.0'
 
-//    implementation 'com.android.support:multidex:1.0.3'
-
+    freeImplementation 'com.google.android.gms:play-services-ads:17.1.1'
     annotationProcessor "android.arch.lifecycle:compiler:${arch_version}"
     compileOnly "org.projectlombok:lombok:${lombok}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnife}"

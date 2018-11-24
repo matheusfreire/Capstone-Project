@@ -22,4 +22,6 @@
     <string name="quantity_tag">Quantidade: %1$s</string>
     <string name="total_shop">Total: R$ %1$s</string>
     <string name="qtde_itens">Qtde Itens: %1$s</string>
+    <string name="date_shop">Compra do dia %1$s</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

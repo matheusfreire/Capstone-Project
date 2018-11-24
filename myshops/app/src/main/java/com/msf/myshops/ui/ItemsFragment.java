@@ -49,14 +49,16 @@ public class ItemsFragment extends BaseFragmentList {
 
     private Shop shop;
     private ItemViewModel itemViewModel;
+    private ShopFinalizeListener listener;
 
     public ItemsFragment(){
 
     }
 
-    public static ItemsFragment newInstance(Shop shop) {
+    public static ItemsFragment newInstance(Shop shop, ShopFinalizeListener listener) {
         ItemsFragment fragment = new ItemsFragment();
         fragment.shop = shop;
+        fragment.listener = listener;
         return fragment;
     }
 
@@ -133,14 +135,14 @@ public class ItemsFragment extends BaseFragmentList {
             shop.setItemList(itemViewModel.getItemsLiveData().getValue());
             shop.setTotalItems(shop.getItemList().size());
             shop.setDate(new Date());
+            if(shop.getUid() == null){
+                shop.setUid(UUID.randomUUID().toString());
+            }
             AppExecutor.getInstance().getDbIo().execute(() -> {
                 MyShopDatabase database = MyShopDatabase.getInstance(getContext());
-                if(shop.getUid() == null){
-                    shop.setUid(UUID.randomUUID().toString());
-                }
                 database.getShopDao().insertShopAndItems(shop, database);
             });
-            getActivity().finish();
+            listener.onShopFinalize(shop);
         }
         return true;
     }
@@ -153,6 +155,10 @@ public class ItemsFragment extends BaseFragmentList {
     @OnClick(R.id.add_new_item)
     public void addNewItem(View view){
         ((ItemActivity) Objects.requireNonNull(getActivity())).addNewItem();
+    }
+
+    interface ShopFinalizeListener{
+        void onShopFinalize(Shop shop);
     }
 
 }

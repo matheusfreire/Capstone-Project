@@ -47,7 +47,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
         String total = Formatador.VALOR.formata(String.valueOf(shop.getTotal()));
         holder.mTotal.setText(context.getString(R.string.total_shop,total));
         holder.mQtdeItens.setText(context.getString(R.string.qtde_itens, String.valueOf(shop.getTotalItems())));
-        holder.mTextViewDate.setText(formatStringDate(shop.getDate()));
+        holder.mTextViewDate.setText(context.getString(R.string.date_shop,formatStringDate(shop.getDate())));
     }
 
     private String formatStringDate(Date date) {
