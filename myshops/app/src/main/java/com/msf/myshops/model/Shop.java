@@ -50,11 +50,26 @@ public class Shop implements Parcelable {
         setTotal(cursor.getDouble(cursor.getColumnIndex(KEY_TOTAL)));
     }
 
-    @Ignore
     protected Shop(Parcel in) {
+        uid = in.readString();
         itemList = in.createTypedArrayList(Item.CREATOR);
         total = in.readDouble();
         finalize = in.readByte() != 0;
+        totalItems = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(uid);
+        dest.writeTypedList(itemList);
+        dest.writeDouble(total);
+        dest.writeByte((byte) (finalize ? 1 : 0));
+        dest.writeInt(totalItems);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Shop> CREATOR = new Creator<Shop>() {
@@ -68,22 +83,6 @@ public class Shop implements Parcelable {
             return new Shop[size];
         }
     };
-
-    public boolean isFinalize() {
-        return finalize;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeTypedList(itemList);
-        parcel.writeDouble(total);
-        parcel.writeByte((byte) (finalize ? 1 : 0));
-    }
 
     public void addItemToShop(Item item){
         if(itemList == null){

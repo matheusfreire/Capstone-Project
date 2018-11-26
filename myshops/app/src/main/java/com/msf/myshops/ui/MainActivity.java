@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.msf.myshops.R;
 import com.msf.myshops.model.Shop;
 import com.msf.myshops.util.Constants;
-import com.msf.myshops.widget.SaveLastShopIntentService;
 
 public class MainActivity extends AppCompatActivity implements ShopsFragment.OnShopClickListener{
 

@@ -34,7 +34,6 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         setSupportActionBar(mToolbarItem);
         setTitleToolbar(getString(R.string.items));
         shop = getIntent().getParcelableExtra(Constants.SHOP.getKey());
-
     }
 
     public void setTitleToolbar(String title) {
