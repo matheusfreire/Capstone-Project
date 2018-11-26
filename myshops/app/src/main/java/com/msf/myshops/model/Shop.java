@@ -3,6 +3,7 @@ package com.msf.myshops.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -16,6 +17,9 @@ import lombok.Data;
 @Data
 @Entity(tableName = "shops")
 public class Shop implements Parcelable {
+
+    private static final String KEY_TOTAL = "total";
+    private static final String KEY_UID = "uid";
 
     @PrimaryKey
     @NonNull
@@ -38,6 +42,12 @@ public class Shop implements Parcelable {
         this.date = date;
         this.total = total;
         this.finalize = finalize;
+    }
+
+    @Ignore
+    public Shop(Cursor cursor){
+        setUid(cursor.getString(cursor.getColumnIndex(KEY_UID)));
+        setTotal(cursor.getDouble(cursor.getColumnIndex(KEY_TOTAL)));
     }
 
     @Ignore

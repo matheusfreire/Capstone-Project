@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.msf.myshops">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -30,6 +32,18 @@
             android:name=".ui.ItemActivity"
             android:label="@string/title_activity_item"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver android:name=".widget.MyShopWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/my_shop_widget_info" />
+        </receiver>
+        <service android:name=".widget.MyShopWidgetService" android:permission="android.permission.BIND_REMOTEVIEWS"/>
+        <service android:name=".widget.SaveLastShopIntentService" android:exported="false"/>
     </application>
 
 </manifest>

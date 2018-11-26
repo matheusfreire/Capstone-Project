@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.android.gms.ads.MobileAds;
 import com.msf.myshops.R;
 import com.msf.myshops.model.Shop;
 import com.msf.myshops.util.Constants;
+import com.msf.myshops.widget.SaveLastShopIntentService;
 
 public class MainActivity extends AppCompatActivity implements ShopsFragment.OnShopClickListener{
 

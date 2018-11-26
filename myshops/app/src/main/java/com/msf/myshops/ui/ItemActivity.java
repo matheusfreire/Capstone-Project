@@ -9,6 +9,7 @@ import com.msf.myshops.R;
 import com.msf.myshops.model.Item;
 import com.msf.myshops.model.Shop;
 import com.msf.myshops.util.Constants;
+import com.msf.myshops.widget.SaveLastShopIntentService;
 
 import java.io.Serializable;
 
@@ -66,6 +67,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
 
     @Override
     public void onShopFinalize(Shop shop) {
+        SaveLastShopIntentService.updateMyShopWidget(this, shop.getUid());
         Intent data = new Intent();
         data.putExtra(Constants.SHOP.getKey(), shop);
         setResult(RESULT_OK, data);

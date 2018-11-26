@@ -7,6 +7,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.Update;
+import android.database.Cursor;
 
 import com.msf.myshops.db.MyShopDatabase;
 import com.msf.myshops.model.Item;
@@ -46,4 +47,6 @@ public abstract class ShopDao {
         update(shop);
     }
 
+    @Query("SELECT * FROM shops where uid = :shopUid")
+    public abstract Cursor getShopByUid(String shopUid);
 }
