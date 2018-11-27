@@ -61,10 +61,10 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
 
     private void showNotification() {
         String total = Formatador.VALOR.formata(String.valueOf(shop.getTotal()));
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(getString(R.string.shop_actual))
-                .setContentText(getString())
+                .setContentText(getString(R.string.total_shop,total))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
     }
 
