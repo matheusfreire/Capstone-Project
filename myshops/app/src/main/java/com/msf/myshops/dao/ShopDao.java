@@ -42,9 +42,7 @@ public abstract class ShopDao {
             ShopItemJoin shopItemJoin = new ShopItemJoin(shop.getUid(), item.getUid());
             database.getItemDao().insert(item);
             database.getShopItemDao().insert(shopItemJoin);
-            shop.addAmountForItem(item.getAmount());
         }
-        update(shop);
     }
 
     @Query("SELECT * FROM shops where uid = :shopUid")

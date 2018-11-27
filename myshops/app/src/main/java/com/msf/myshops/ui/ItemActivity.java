@@ -2,6 +2,7 @@ package com.msf.myshops.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -13,6 +14,7 @@ import com.msf.myshops.widget.SaveLastShopIntentService;
 
 import java.io.Serializable;
 
+import br.com.concrete.canarinho.formatador.Formatador;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -53,7 +55,17 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     @Override
     public void onNewItemSave(Item item) {
         setTitleToolbar(getString(R.string.items));
-        itemsFragment.addItemOnAdapter(item);
+        shop.addAmountForItem(item.getAmount());
+        showNotification();
+    }
+
+    private void showNotification() {
+        String total = Formatador.VALOR.formata(String.valueOf(shop.getTotal()));
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(getString(R.string.shop_actual))
+                .setContentText(getString())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
     }
 
     public void addNewItem() {

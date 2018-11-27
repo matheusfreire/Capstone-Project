@@ -26,4 +26,5 @@
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="last_shop">Sua última compra foi de: R$ %1$s</string>
     <string name="your_last_shop_will_appear">Sua última compra aparecerá aqui</string>
+    <string name="shop_actual">Compra atual</string>
 </resources>
