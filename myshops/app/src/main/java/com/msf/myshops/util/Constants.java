@@ -5,7 +5,8 @@ public enum Constants {
     SHOP("SHOP"),
     NEW_SHOP_IMPL("NEW_SHOP_IMPL"),
     PATTERN_DATE_BR("dd/MM/yyyy"),
-    SHOP_PREFERENCES("UID_SHOP");
+    SHOP_PREFERENCES("UID_SHOP"),
+    NOTIFICATION_CHANNEL("MY_SHOP");
 
     private String key;
     Constants(String key){

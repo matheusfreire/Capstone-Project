@@ -31,7 +31,8 @@
         <activity
             android:name=".ui.ItemActivity"
             android:label="@string/title_activity_item"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:excludeFromRecents="true"/>
 
         <receiver android:name=".widget.MyShopWidgetProvider">
             <intent-filter>

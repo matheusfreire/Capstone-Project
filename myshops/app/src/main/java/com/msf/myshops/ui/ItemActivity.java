@@ -1,8 +1,15 @@
 package com.msf.myshops.ui;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -12,7 +19,7 @@ import com.msf.myshops.model.Shop;
 import com.msf.myshops.util.Constants;
 import com.msf.myshops.widget.SaveLastShopIntentService;
 
-import java.io.Serializable;
+import java.util.Date;
 
 import br.com.concrete.canarinho.formatador.Formatador;
 import butterknife.BindView;
@@ -21,6 +28,7 @@ import butterknife.ButterKnife;
 public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener, ItemsFragment.ShopFinalizeListener{
 
     public static final String KEY_NEW_ITEM_FRAG = "NEW_ITEM_FRAGMENT";
+    private static final int NOTIFICATION_ID = Long.valueOf(new Date().getTime()).intValue();
     private ItemsFragment itemsFragment;
 
     @BindView(R.id.toolbar_item)
@@ -36,6 +44,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         setSupportActionBar(mToolbarItem);
         setTitleToolbar(getString(R.string.items));
         shop = getIntent().getParcelableExtra(Constants.SHOP.getKey());
+//        createNotificationChannel();
     }
 
     public void setTitleToolbar(String title) {
@@ -55,17 +64,44 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
     @Override
     public void onNewItemSave(Item item) {
         setTitleToolbar(getString(R.string.items));
+        itemsFragment.addItemOnAdapter(item);
         shop.addAmountForItem(item.getAmount());
         showNotification();
     }
 
     private void showNotification() {
         String total = Formatador.VALOR.formata(String.valueOf(shop.getTotal()));
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "")
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(getString(R.string.shop_actual))
-                .setContentText(getString(R.string.total_shop,total))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        NotificationCompat.Builder builder =new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setContentTitle(getString(R.string.shop_actual))
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setContentText(getString(R.string.total_shop,total))
+                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        createNotificationChannel(builder, manager);
+        manager.notify(0, builder.build());
+    }
+
+    private void createNotificationChannel(NotificationCompat.Builder builder, NotificationManager manager) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+            NotificationChannel nChannel = new NotificationChannel("0", Constants.NOTIFICATION_CHANNEL.getKey(), NotificationManager.IMPORTANCE_HIGH);
+            nChannel.enableLights(true);
+            nChannel.setLightColor(Color.BLUE);
+            builder.setChannelId("0");
+            manager.createNotificationChannel(nChannel);
+        }
+    }
+
+    private PendingIntent createIntent() {
+        Intent resultIntent = new Intent(this, ItemActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public void addNewItem() {
