@@ -4,22 +4,28 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.msf.myshops.R;
+import com.msf.myshops.db.MyShopDatabase;
 import com.msf.myshops.model.Item;
 import com.msf.myshops.model.Shop;
+import com.msf.myshops.util.AppExecutor;
 import com.msf.myshops.util.Constants;
 import com.msf.myshops.widget.SaveLastShopIntentService;
 
 import java.util.Date;
+import java.util.UUID;
 
 import br.com.concrete.canarinho.formatador.Formatador;
 import butterknife.BindView;
@@ -28,7 +34,6 @@ import butterknife.ButterKnife;
 public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener, ItemsFragment.ShopFinalizeListener{
 
     public static final String KEY_NEW_ITEM_FRAG = "NEW_ITEM_FRAGMENT";
-    private static final int NOTIFICATION_ID = Long.valueOf(new Date().getTime()).intValue();
     private ItemsFragment itemsFragment;
 
     @BindView(R.id.toolbar_item)
@@ -43,6 +48,8 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         ButterKnife.bind(this);
         setSupportActionBar(mToolbarItem);
         setTitleToolbar(getString(R.string.items));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         shop = getIntent().getParcelableExtra(Constants.SHOP.getKey());
 //        createNotificationChannel();
     }
@@ -97,13 +104,6 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         }
     }
 
-    private PendingIntent createIntent() {
-        Intent resultIntent = new Intent(this, ItemActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addNextIntentWithParentStack(resultIntent);
-        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
     public void addNewItem() {
         NewItemFragment newItemFragment = NewItemFragment.newInstance(this);
         setTitleToolbar(getString(R.string.add_new_item));
@@ -121,4 +121,36 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         finish();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+                showMessageDialog();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return true;
+    }
+
+    private void showMessageDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(R.string.alert);
+        alertDialog.setMessage(getString(R.string.exit_new_fragment));
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.yes), (dialogInterface, i) -> {
+            getSupportFragmentManager().popBackStack();
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.no), (dialogInterface, i) -> {
+            alertDialog.dismiss();
+        });
+        alertDialog.show();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.para_direita_entra, R.anim.para_direita_sai);
+    }
 }

@@ -129,7 +129,11 @@ public class ItemsFragment extends BaseFragmentList {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            getFragmentManager().popBackStack();
+            if (getFragmentManager().getBackStackEntryCount() != 0) {
+                getFragmentManager().popBackStack();
+            } else {
+                getActivity().finish();
+            }
             return true;
         } else if(id == R.id.finish_shop){
             shop.setItemList(itemViewModel.getItemsLiveData().getValue());

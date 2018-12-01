@@ -29,4 +29,8 @@
     <string name="shop_actual">Compra atual</string>
     <string name="channel_name">MyShopChannel</string>
     <string name="channel_description">MyShopDescription</string>
+    <string name="alert">Atenção</string>
+    <string name="exit_new_fragment">Todos os dados serão perdidos, você tem certeza?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 </resources>
