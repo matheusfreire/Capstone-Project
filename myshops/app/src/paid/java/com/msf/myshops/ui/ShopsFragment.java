@@ -13,9 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.msf.myshops.R;
 import com.msf.myshops.model.Shop;
 import com.msf.myshops.viewmodel.ShopViewModel;
@@ -54,7 +51,6 @@ public class ShopsFragment extends BaseFragmentList{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobileAds.initialize(getContext(), getString(R.string.banner_ad_unit_id));
     }
 
     @Override

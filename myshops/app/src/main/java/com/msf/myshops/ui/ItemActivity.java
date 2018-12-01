@@ -16,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.msf.myshops.R;
 import com.msf.myshops.db.MyShopDatabase;
 import com.msf.myshops.model.Item;
@@ -41,6 +44,8 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
 
     private Shop shop;
 
+    private DatabaseReference database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +56,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         shop = getIntent().getParcelableExtra(Constants.SHOP.getKey());
-//        createNotificationChannel();
+        database = FirebaseDatabase.getInstance().getReference();
     }
 
     public void setTitleToolbar(String title) {
@@ -150,6 +155,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
 
     @Override
     public void finish() {
+        database.child("shops").child(shop.getUid()).setValue(shop);
         super.finish();
         overridePendingTransition(R.anim.para_direita_entra, R.anim.para_direita_sai);
     }
