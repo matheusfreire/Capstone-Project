@@ -132,7 +132,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
             }
             return true;
         }
-        return true;
+        return false;
     }
 
     private void showMessageDialog() {

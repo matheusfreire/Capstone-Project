@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -37,6 +41,14 @@ android {
     defaultConfig {
         multiDexEnabled true
     }
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
 
 }
 
@@ -65,11 +77,12 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:${lombok}"
 
     freeImplementation 'com.google.android.gms:play-services-ads:17.1.1'
+    implementation 'com.google.firebase:firebase-database:16.0.5'
 
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnife}"
 
-    annotationProcessor "android.arch.lifecycle:compiler:${arch_version}"
     implementation "android.arch.persistence.room:runtime:${arch_version}"
+    annotationProcessor "android.arch.lifecycle:compiler:${arch_version}"
     annotationProcessor "android.arch.persistence.room:compiler:${arch_version}"
 
     testImplementation 'junit:junit:4.12'
