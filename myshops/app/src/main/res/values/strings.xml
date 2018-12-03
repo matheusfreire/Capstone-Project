@@ -33,4 +33,5 @@
     <string name="exit_new_fragment">Todos os dados serão perdidos, você tem certeza?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="no_add_item">Não é possível adicionar um novo item numa compra finalizada</string>
 </resources>

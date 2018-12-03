@@ -47,4 +47,5 @@ public abstract class ShopDao {
 
     @Query("SELECT * FROM shops where uid = :shopUid")
     public abstract Cursor getShopByUid(String shopUid);
+
 }

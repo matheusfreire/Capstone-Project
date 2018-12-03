@@ -7,28 +7,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.msf.myshops.R;
-import com.msf.myshops.db.MyShopDatabase;
 import com.msf.myshops.model.Item;
 import com.msf.myshops.model.Shop;
-import com.msf.myshops.util.AppExecutor;
+import com.msf.myshops.sync.MyShopAsync;
 import com.msf.myshops.util.Constants;
 import com.msf.myshops.widget.SaveLastShopIntentService;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 import br.com.concrete.canarinho.formatador.Formatador;
 import butterknife.BindView;
@@ -36,7 +33,6 @@ import butterknife.ButterKnife;
 
 public class ItemActivity extends AppCompatActivity implements NewItemFragment.OnNewItemListener, ItemsFragment.ShopFinalizeListener{
 
-    public static final String KEY_NEW_ITEM_FRAG = "NEW_ITEM_FRAGMENT";
     private ItemsFragment itemsFragment;
 
     @BindView(R.id.toolbar_item)
@@ -44,7 +40,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
 
     private Shop shop;
 
-    private DatabaseReference database;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +52,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         shop = getIntent().getParcelableExtra(Constants.SHOP.getKey());
-        database = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     public void setTitleToolbar(String title) {
@@ -104,7 +100,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
             NotificationChannel nChannel = new NotificationChannel("0", Constants.NOTIFICATION_CHANNEL.getKey(), NotificationManager.IMPORTANCE_HIGH);
             nChannel.enableLights(true);
             nChannel.setLightColor(Color.BLUE);
-            builder.setChannelId("0");
+            builder.setChannelId(Constants.CHANNEL_ID.getKey());
             manager.createNotificationChannel(nChannel);
         }
     }
@@ -114,7 +110,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
         setTitleToolbar(getString(R.string.add_new_item));
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.para_esquerda_entra, R.anim.para_esquerda_sai, R.anim.para_direita_entra, R.anim.para_direita_sai)
-                .replace(R.id.item_container, newItemFragment).addToBackStack(KEY_NEW_ITEM_FRAG).commit();
+                .replace(R.id.item_container, newItemFragment).addToBackStack(Constants.KEY_NEW_ITEM_FRAG.getKey()).commit();
     }
 
     @Override
@@ -155,7 +151,7 @@ public class ItemActivity extends AppCompatActivity implements NewItemFragment.O
 
     @Override
     public void finish() {
-        database.child("shops").child(shop.getUid()).setValue(shop);
+        new MyShopAsync(this, databaseReference).execute(shop);
         super.finish();
         overridePendingTransition(R.anim.para_direita_entra, R.anim.para_direita_sai);
     }
