@@ -15,7 +15,7 @@ import com.msf.myshops.model.Shop;
 import com.msf.myshops.model.ShopItemJoin;
 
 @TypeConverters(DateConverter.class)
-@Database(entities = { Shop.class, Item.class, ShopItemJoin.class },version = 1)
+@Database(entities = { Shop.class, Item.class, ShopItemJoin.class },version = 1, exportSchema = false)
 public abstract class MyShopDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();
