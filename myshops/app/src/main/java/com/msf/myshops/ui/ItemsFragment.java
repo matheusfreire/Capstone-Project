@@ -142,7 +142,6 @@ public class ItemsFragment extends BaseFragmentList {
             shop.setTotalItems(shop.getItemList().size());
             shop.setDate(new Date());
             shop.setUid(UUID.randomUUID().toString());
-            shop.setFinalize(true);
             AppExecutor.getInstance().getDbIo().execute(() -> {
                 MyShopDatabase database = MyShopDatabase.getInstance(getContext());
                 database.getShopDao().insertShopAndItems(shop, database);

@@ -24,7 +24,7 @@ public abstract class ShopDao {
     abstract void insert(Shop... shops);
 
     @Update
-    abstract void update(Shop... shops);
+    public abstract void update(Shop... shops);
 
     @Delete
     abstract void delete(Shop... shops);

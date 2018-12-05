@@ -64,11 +64,6 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
         return mValues.get(position);
     }
 
-    void addItem(Shop shop) {
-        mValues.add(shop);
-        notifyDataSetChanged();
-    }
-
     @Override
     public void addClickOnShop(Shop shop) {
 
