@@ -38,7 +38,6 @@ public class NewItemFragment extends Fragment {
 
 
     public NewItemFragment() {
-        // Required empty public constructor
     }
 
     public static NewItemFragment newInstance(OnNewItemListener listener) {
@@ -93,8 +92,16 @@ public class NewItemFragment extends Fragment {
     private void setValuesOnItem() {
         mItem = new Item();
         mItem.setDescription(Objects.requireNonNull(mInputEditDescription.getText()).toString());
-        mItem.setQuantity(Integer.valueOf(Objects.requireNonNull(mInputEditQuantity.getText()).toString()));
-        mItem.setValue(Double.valueOf(Objects.requireNonNull(convertValueStringToDouble(mInputEditUnitValue.getText().toString())).toString()));
+        try{
+            mItem.setQuantity(Integer.valueOf(Objects.requireNonNull(mInputEditQuantity.getText()).toString()));
+        } catch (NumberFormatException e){
+            putErroMsgOnInputEdit(mInputEditQuantity, "Informe uma quantidade entre 1 e 999");
+        }
+        try{
+            mItem.setValue(Double.valueOf(Objects.requireNonNull(convertValueStringToDouble(mInputEditUnitValue.getText().toString())).toString()));
+        } catch (NumberFormatException e){
+            putErroMsgOnInputEdit(mInputEditQuantity, "Informe uma quantidade entre R$ 0,01 e R$ 999.999,99");
+        }
     }
 
     private double convertValueStringToDouble(String value){

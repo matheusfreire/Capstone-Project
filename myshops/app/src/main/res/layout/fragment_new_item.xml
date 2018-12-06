@@ -44,7 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/unit_value"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:maxLength="10"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -59,7 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/quantity"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="3"/>
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
